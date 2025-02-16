@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ingressos</title>
+</head>
+<body>
+  <a href="/home">Voltar</a>
+  
+  <!-- Formulário de pesquisa -->
+  <form action="ingressos" method="GET">
+    <input type="text" name="pesquisa" placeholder="Pesquisar Ingressos..." value="{{pesquisa}}">
+    <button type="submit">Pesquisar</button>
+  </form>
+  
+  <!-- Formulário para comprar ingressos -->
+  <form action="http://localhost:3000/api/compras/comprar" method="POST">
+    <ul>
+      {{#ingressos}}
+        <li>
+          <strong>{{nome}}</strong> - R$ {{preco}}<br>
+          <label>
+            Quantidade:
+            <input type="number" name="quantidades[]" value="0" min="0" max="{{quantidadeDisponivel}}">
+          </label>
+          <input type="hidden" name="ingressoIds[]" value="{{_id}}">
+        </li>
+      {{/ingressos}}
+    </ul>
+    <button type="submit">Prosseguir</button>
+  </form>
+  
+  <!-- Exibição de erro, se houver -->
+  {{#erro}}
+    <p style="color: red;">{{erro}}</p>
+  {{/erro}}
+</body>
+</html>

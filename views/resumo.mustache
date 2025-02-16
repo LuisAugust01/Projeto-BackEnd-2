@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Resumo da Compra</title>
+</head>
+<body>
+  <a href="/ingressos">Voltar para Seleção</a>
+  <h2>Resumo da Compra</h2>
+  
+  <ul>
+    {{#ingressos}}
+      <li>
+        <strong>{{nome}}</strong> - R$ {{preco}} x {{quantidade}} = R$ {{subtotal}}
+        <!-- Campo oculto para manter os dados no formulário de confirmação -->
+        <input type="hidden" name="ingressos[{{@index}}][ingressoId]" value="{{ingressoId}}">
+        <input type="hidden" name="ingressos[{{@index}}][quantidade]" value="{{quantidade}}">
+      </li>
+    {{/ingressos}}
+  </ul>
+  
+  <p><strong>Total: R$ {{total}}</strong></p>
+  
+  <!-- Formulário para confirmar a compra -->
+  <form action="/api/compras/comprar" method="POST">
+    {{#ingressos}}
+      <input type="hidden" name="ingressos[{{@index}}][ingressoId]" value="{{ingressoId}}">
+      <input type="hidden" name="ingressos[{{@index}}][quantidade]" value="{{quantidade}}">
+    {{/ingressos}}
+    <button type="submit">Confirmar Compra</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault(); // Impede o envio padrão do formulário
+
+        // Cria um objeto com os dados do formulário
+        const formData = new FormData(form);
+        const dados = new URLSearchParams();
+        for (const pair of formData) {
+          dados.append(pair[0], pair[1]);
+        }
+
+        // Envia os dados via fetch para o endpoint de registro
+        fetch(form.action, {
+          method: form.method,
+          body: dados
+        })
+        .then(response => {
+          if (response.ok) {
+            // Redireciona imediatamente para a tela desejada (por exemplo, "/")
+            window.location.href = '/';
+          } else {
+            // Aqui você pode tratar os erros retornados, se necessário
+            alert('Ocorreu um erro ao registrar.');
+          }
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          alert('Ocorreu um erro na requisição.');
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <!-- Certifique-se de que a action aponta para a rota correta -->
+  <form action="http://localhost:3000/api/auth/registro" method="POST">
+    <input type="text" name="nome" placeholder="Nome" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="senha" placeholder="Senha" required>
+    <button type="submit">Registrar</button>
+  </form>
+  <a href="/">Voltar</a>
+</body>
+</html>

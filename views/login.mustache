@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault(); // Impede o envio padrão do formulário
+
+        // Coleta os dados do formulário
+        const formData = new FormData(form);
+        const dados = new URLSearchParams();
+        for (const pair of formData) {
+          dados.append(pair[0], pair[1]);
+        }
+
+        // Envia os dados via fetch para o endpoint de login
+        fetch(form.action, {
+          method: form.method,
+          body: dados
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Credenciais inválidas.');
+          }
+        })
+        .then(data => {
+          // Salva o token no localStorage (ou outro mecanismo de armazenamento)
+          localStorage.setItem('token', data.token);
+          // Redireciona para /home
+          window.location.href = '/home';
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+          alert('Ocorreu um erro no login: ' + error.message);
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <!-- Certifique-se de que a action aponta para o endpoint correto -->
+  <form action="http://localhost:3000/api/auth/login" method="POST"> 
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="senha" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
+  </form>
+  <a href="/registro">Novo cadastro</a>
+</body>
+</html>

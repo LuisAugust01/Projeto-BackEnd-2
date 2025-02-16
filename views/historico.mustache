@@ -1,0 +1,17 @@
+<a href="/home">Voltar</a>
+<table>
+  <tr>
+    <th>Item</th>
+    <th>Quantidade</th>
+    <th>Valor</th>
+    <th>Total</th>
+  </tr>
+  {{#compras}}
+  <tr>
+    <td>{{item}}</td>
+    <td>{{quantidade}}</td>
+    <td>R$ {{valor}}</td>
+    <td>R$ {{total}}</td>
+  </tr>
+  {{/compras}}
+</table>
